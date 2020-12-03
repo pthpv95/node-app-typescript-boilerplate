@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_data:/data/db
+    restart: always
+  
+  node-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-node-app
+    ports:
+      - "8080:8080"
+    environment:
+      MONGO_HOSTNAME: db
+      PORT: 8080
+    depends_on:
+      - db
+
+volumes:
+  db_data:

@@ -1,0 +1,18 @@
+name: node-app
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: "188.166.221.160"
+          USERNAME: "root"
+          KEY: ${{ secrets.SSH_KEY }}
+          script: mkdir test

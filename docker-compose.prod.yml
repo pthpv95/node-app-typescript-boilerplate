@@ -22,5 +22,17 @@ services:
     depends_on:
       - db
 
+  web:
+    build:
+      context: client
+      dockerfile: Dockerfile.prod
+    image: my-node-app-web
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+    depends_on:
+      - node-service
+
 volumes:
   db_data:

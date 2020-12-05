@@ -3,8 +3,10 @@ import { json } from 'body-parser';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import { User } from './models/user';
-
+const cors = require("cors")
 const app = express();
+app.use(cors())
+
 app.use(json());
 app.use(compression());
 

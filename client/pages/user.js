@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react"
 
-export const User = () => {
+const User = () => {
   const [users, setUsers] = useState([])
   useEffect(() => {
-    const baseUrl = `${NEXT_PUBLIC_BASE_API_URL}api/users`
+    const baseUrl = `${process.env.NEXT_PUBLIC_BASE_API_URL}api/users`
     fetch(baseUrl).then((response) => {
       response.json().then(function (data) {
         console.log(data)
@@ -22,3 +22,5 @@ export const User = () => {
     </div>
   )
 }
+
+export default User

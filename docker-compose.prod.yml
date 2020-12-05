@@ -11,7 +11,7 @@ services:
   
   node-service:
     build:
-      context: .
+      context: server
       dockerfile: Dockerfile.prod
     image: my-node-app
     ports:

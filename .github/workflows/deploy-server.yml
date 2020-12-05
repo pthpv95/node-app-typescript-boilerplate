@@ -17,6 +17,6 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-          cd projects/node-app-typescript-boilerplate
-          git checkout master && git pull origin master
-          docker-compose -f docker-compose.prod.yml build && docker-compose -f docker-compose.prod.yml up -d
+            cd projects/node-app-typescript-boilerplate
+            git checkout master && git pull origin master
+            docker-compose -f docker-compose.prod.yml build && docker-compose -f docker-compose.prod.yml up -d

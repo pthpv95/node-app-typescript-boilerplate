@@ -9,7 +9,7 @@ app.use(json());
 app.use(compression());
 
 app.get('/', async (req: Request, res: Response) => {
-  res.send('Hello world. Welcome to node app typescript simple boilerplate.');
+  res.send('Hello world. Welcome to node app typescript simple boilerplate !!');
 });
 
 app.get('/healthcheck', async (req: Request, res: Response) => {

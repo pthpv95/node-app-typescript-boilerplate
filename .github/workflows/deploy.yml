@@ -16,4 +16,7 @@ jobs:
           port: ${{ secrets.PORT }}
           username: ${{ secrets.USER_NAME }}
           key: ${{ secrets.SSH_KEY }}
-          script: mkdir test
+          script: |
+          cd projects/node-app-typescript-boilerplate
+          git checkout master && git pull origin master
+          docker-compose build && docker-compose up -d

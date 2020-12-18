@@ -16,8 +16,10 @@ services:
     image: my-node-app
     ports:
       - "8080:8080"
+    container_name: container-2
     environment:
       MONGO_HOSTNAME: db
+      VIRTUAL_HOST: node.container.com
       PORT: 8080
     depends_on:
       - db
@@ -29,6 +31,9 @@ services:
     image: my-node-app-web
     ports:
       - "3000:3000"
+    container_name: container-1
+    environment:
+      VIRTUAL_HOST: web.container.com
     depends_on:
       - node-service
 

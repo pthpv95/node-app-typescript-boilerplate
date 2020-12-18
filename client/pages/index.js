@@ -1,6 +1,5 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { getAccessToken } from "../utils/access-token"
@@ -9,7 +8,7 @@ export default function Home() {
   const [userInfo, setUserInfo] = useState()
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}api/me`, {
+    fetch(`api/me`, {
       headers: {
         Authorization: "Bearer " + getAccessToken(),
       },
@@ -34,7 +33,7 @@ export default function Home() {
         <h1 className={styles.title}>Hello {userInfo && userInfo.email}</h1>
         <button
           onClick={() => {
-            fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}logout`)
+            fetch('/api/logout')
               .then((res) => res.json())
               .then((data) => {
                 router.push("/login")
@@ -43,7 +42,7 @@ export default function Home() {
         >
           Log out
         </button>
-        <button
+        {/* <button
           onClick={() => {
             fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}refresh_token`, {
               method: "POST",
@@ -58,7 +57,7 @@ export default function Home() {
           }}
         >
           Refresh token
-        </button>
+        </button> */}
         {/* <Link href='/users' as={"users"}>
           <a>Users</a>
         </Link> */}

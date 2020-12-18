@@ -10,8 +10,7 @@ const Login = (props) => {
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
-      const url = `${process.env.NEXT_PUBLIC_BASE_API_URL}login`
-      fetch(url, {
+      fetch('/api/login', {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -31,7 +30,7 @@ const Login = (props) => {
             return
           }
           setAccessToken(res.data.accessToken);
-          // router.push('/')
+          router.push('/')
         })
     }}>
       <div>

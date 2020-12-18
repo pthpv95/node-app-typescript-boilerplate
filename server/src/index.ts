@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
-import cookieSession from "cookie-session"
-import cors from 'cors';
+// import cors from 'cors';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -20,14 +19,8 @@ const loginPath = path.join(__dirname, './public/login.html');
 
 const app = express();
 app.set('trust proxy', true);
-app.use(cors())
+// app.use(cors()) not need now
 app.use(json());
-
-// app.use(cookieSession({
-//   signed: false,
-//   httpOnly: true, 
-//   secure: false
-// }));
 
 app.use(compression());
 app.use(cookieParser());

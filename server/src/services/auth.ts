@@ -1,6 +1,6 @@
 import { UserDoc } from "../models/user"
 import { sign } from "jsonwebtoken"
-import { Response } from "express"
+import { Request } from "express"
 
 const createAccessToken = (user: UserDoc) => {
   return sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET!, {
@@ -18,11 +18,10 @@ const createRefreshToken = (user: UserDoc) => {
   )
 }
 
-const sendRefreshToken = (res: Response, token: string) => {
-  res.cookie("jid", token, {
-    httpOnly: true,
-    path: "/refresh_token"
-  })
+const sendRefreshToken = (req: Request, token: string) => {
+  req.session = {
+    rftk: token,
+  }
 }
 
 export { createAccessToken, createRefreshToken, sendRefreshToken }

@@ -15,7 +15,7 @@
   <script>
     (function () {
       let accessToken = '';
-      fetch('/refresh_token', {
+      fetch('/api/refresh_token', {
         method: 'POST',
       })
         .then((res) => res.json())
@@ -23,16 +23,16 @@
           if (!data.ok) {
             window.location.href = '/static/login';
           }
-          accessToken = data.accessToken;
+          accessToken = data.data.accessToken;
           fetch('/api/me', {
             headers: {
-              Authorization: 'Bearer ' + data.accessToken,
+              Authorization: 'Bearer ' + accessToken,
             },
           })
             .then((res) => res.json())
             .then((data) => {
               const ele = document.getElementById('main');
-              ele.textContent = 'Hello ' + data.email;
+              ele.textContent = 'Hello ' + data.data.user.email;
             });
         });
 

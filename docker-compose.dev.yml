@@ -36,6 +36,9 @@ services:
       PORT: 8080
     depends_on:
       - db
+    volumes:
+      - ./server:/app
+      - /app/node_modules
     networks:
       - my-network
 
@@ -49,6 +52,10 @@ services:
       - 3000:3000
     depends_on:
       - backend
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
     networks:
       - my-network
 

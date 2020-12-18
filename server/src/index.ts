@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express, { Request, Response } from 'express';
-// import cors from 'cors';
+import cors from 'cors';
+import cookieSession from 'cookie-session';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -19,9 +20,14 @@ const loginPath = path.join(__dirname, './public/login.html');
 
 const app = express();
 app.set('trust proxy', true);
-// app.use(cors()) not need now
+app.use(cors()) //not need now
 app.use(json());
-
+app.use(
+  cookieSession({
+    signed: false,
+    secure: false, //process.env.NODE_ENV !== "test",
+  })
+)
 app.use(compression());
 app.use(cookieParser());
 
@@ -40,7 +46,11 @@ app.post('/api/login', async (req: Request, res: Response) => {
     throw new Error('Wrong username or password');
   }
 
-  sendRefreshToken(res, createRefreshToken(user));
+  sendRefreshToken(req, createRefreshToken(user));
+  req.session = {
+    rftk: createRefreshToken(user),
+  };
+
   res.send(
     new ResponseData(true, {
       accessToken: createAccessToken(user),
@@ -50,14 +60,14 @@ app.post('/api/login', async (req: Request, res: Response) => {
 });
 
 app.get('/api/logout', async (req: Request, res: Response) => {
-  sendRefreshToken(res, '');
+  sendRefreshToken(req, '')
   res.send({});
 });
 
 app.post('/api/refresh_token', async (req: Request, res: Response) => {
-  const token = req.cookies.jid;
+  const token = req.session.rftk;
   if (!token) {
-    res.send({ ok: false, accessToken: '' });
+    res.send({ ok: false, accessToken: "" })
   }
 
   let payload: any;
@@ -78,11 +88,13 @@ app.post('/api/refresh_token', async (req: Request, res: Response) => {
     });
   }
 
-  sendRefreshToken(res, token);
+  sendRefreshToken(req, token);
   res.send({
     ok: true,
-    accessToken: createAccessToken(user),
-  });
+    data: {
+      accessToken: createAccessToken(user),
+    },
+  })
 });
 
 app.get('/healthcheck', authorized, async (req: Request, res: Response) => {

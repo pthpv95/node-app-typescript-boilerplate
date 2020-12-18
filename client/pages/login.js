@@ -18,12 +18,7 @@ const Login = (props) => {
         }),
         headers: { "Content-type": "application/json; charset=UTF-8" },
       })
-        .then((response) => {
-          for (var pair of response.headers.entries()){
-            console.log(pair)
-          }
-          return response.json();
-        })
+        .then((response) => response.json())
         .then((res) => {
           if (!res.ok) {
             alert(res.data.message)

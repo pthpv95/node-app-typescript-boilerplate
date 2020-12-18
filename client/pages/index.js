@@ -2,13 +2,18 @@ import Head from "next/head"
 import styles from "../styles/Home.module.css"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { getAccessToken } from "../utils/access-token"
+import {
+  checkAuthorized,
+  getAccessToken,
+  setAccessToken,
+} from "../utils/access-token"
+
 export default function Home() {
   const router = useRouter()
   const [userInfo, setUserInfo] = useState()
 
-  useEffect(() => {
-    fetch(`api/me`, {
+  const fetchMe = () =>
+    fetch("api/me", {
       headers: {
         Authorization: "Bearer " + getAccessToken(),
       },
@@ -20,6 +25,17 @@ export default function Home() {
         }
         setUserInfo(json.data.user)
       })
+
+  const fetchData = async () => {
+    if (!getAccessToken()) {
+      await checkAuthorized()
+    }
+
+    await fetchMe()
+  }
+
+  useEffect(() => {
+    fetchData()
   }, [])
 
   return (
@@ -30,10 +46,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Hello {userInfo && userInfo.email}</h1>
+        <p className={styles.title}>Hello {userInfo && userInfo.email}</p>
         <button
           onClick={() => {
-            fetch('/api/logout')
+            fetch("/api/logout")
               .then((res) => res.json())
               .then((data) => {
                 router.push("/login")
@@ -66,8 +82,9 @@ export default function Home() {
   )
 }
 
-export async function getServerSideProps(context) {
-  return {
-    props: {}, // will be passed to the page component as props
-  }
-}
+// Home.getInitialProps = async (ctx) => {
+//   // const authenticated = await checkAuthorized();
+//   return {
+
+//   }
+// }

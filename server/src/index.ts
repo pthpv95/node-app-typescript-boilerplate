@@ -36,7 +36,7 @@ app.get('/', async (req: Request, res: Response) => {
   res.send('Hello world. Welcome to node app typescript simple boilerplate.');
 });
 
-app.post('/login', async (req: Request, res: Response) => {
+app.post('/api/login', async (req: Request, res: Response) => {
   const body = req.body;
   const user = await User.findOne({ email: body.email });
   if (!user) {
@@ -56,12 +56,12 @@ app.post('/login', async (req: Request, res: Response) => {
   );
 });
 
-app.get('/logout', async (req: Request, res: Response) => {
+app.get('/api/logout', async (req: Request, res: Response) => {
   sendRefreshToken(res, '');
   res.send({});
 });
 
-app.post('/refresh_token', async (req: Request, res: Response) => {
+app.post('/api/refresh_token', async (req: Request, res: Response) => {
   const token = req.cookies.jid;
   if (!token) {
     res.send({ ok: false, accessToken: '' });

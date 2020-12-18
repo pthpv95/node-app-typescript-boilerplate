@@ -14,6 +14,7 @@ export async function getStaticProps() {
   const baseUrl = `${process.env.BASE_API_URL}api/users`
   const res = await fetch(baseUrl)
   const users = await res.json()
+  console.log(users)
   return {
     props: {
       users,

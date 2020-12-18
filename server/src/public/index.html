@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>Home page</h2>
+    <p id="main"></p>
+    <button id="btn-get-user">Get users</button>
+    <button id="btn-log-out">Log out</button>
+    <div id="users-list"></div>
+  </body>
+  <script>
+    (function () {
+      let accessToken = '';
+      fetch('/refresh_token', {
+        method: 'POST',
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.ok) {
+            window.location.href = '/static/login';
+          }
+          accessToken = data.accessToken;
+          fetch('/api/me', {
+            headers: {
+              Authorization: 'Bearer ' + data.accessToken,
+            },
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              const ele = document.getElementById('main');
+              ele.textContent = 'Hello ' + data.email;
+            });
+        });
+
+      const getUserBtn = document.getElementById('btn-get-user');
+      getUserBtn.addEventListener('click', () => {
+        fetch('/api/users', {
+          headers: {
+            Authorization: 'Bearer ' + accessToken,
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            const usersList = document.getElementById('users-list');
+            let nodes = [];
+            data.forEach((item) => {
+              const node = document.createElement('LI');
+              const textNode = document.createTextNode(item.email);
+              node.appendChild(textNode);
+              nodes.push(node);
+            });
+            usersList.append(...nodes);
+          });
+      });
+
+      const logoutBtn = document.getElementById('btn-log-out');
+      logoutBtn.addEventListener('click', () => {
+        fetch('/logout')
+          .then((res) => res.json())
+          .then((data) => {
+            window.location.href = '/static/login';
+          });
+      });
+    })();
+  </script>
+</html>

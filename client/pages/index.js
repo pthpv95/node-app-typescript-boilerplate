@@ -1,12 +1,8 @@
 import Head from "next/head"
-import styles from "../styles/Home.module.css"
+// import styles from "../styles/Home.module.css"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import {
-  checkAuthorized,
-  getAccessToken,
-  setAccessToken,
-} from "../utils/access-token"
+import { checkAuthorized, getAccessToken, setAccessToken } from "../utils/access-token"
 
 export default function Home() {
   const router = useRouter()
@@ -38,45 +34,43 @@ export default function Home() {
     fetchData()
   }, [])
 
+  const logout = () => {
+    fetch("/api/logout")
+      .then((res) => res.json())
+      .then((data) => {
+        setAccessToken('');
+        router.push("/login");
+      })
+  }
+
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Create Next App</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main className={styles.main}>
-        <p className={styles.title}>Hello {userInfo && userInfo.email}</p>
-        <button
-          onClick={() => {
-            fetch("/api/logout")
-              .then((res) => res.json())
-              .then((data) => {
-                router.push("/login")
-              })
-          }}
-        >
-          Log out
-        </button>
-        {/* <button
-          onClick={() => {
-            fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}refresh_token`, {
-              method: "POST",
-            })
-              .then((res) => res.json())
-              .then((json) => {
-                // if (!json.ok) {
-                //   router.push("/login")
-                // }
-                // setUserInfo(json.data.user)
-              })
-          }}
-        >
-          Refresh token
-        </button> */}
-        {/* <Link href='/users' as={"users"}>
-          <a>Users</a>
-        </Link> */}
+      <main>
+        <nav className='navbar navbar-expand-lg navbar-light bg-light'>
+          <div className='container-fluid'>
+            <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
+              <div className='navbar-nav'>
+                <a className='nav-link active' href='#'>
+                  Hello {userInfo && userInfo.email}
+                </a>
+                <a
+                  className='nav-link active'
+                  href='#'
+                  tabIndex='-1'
+                  aria-disabled='true'
+                  onClick={logout}
+                >
+                  Log out
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
       </main>
     </div>
   )

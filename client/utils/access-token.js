@@ -9,7 +9,7 @@ const getAccessToken = () => accessToken;
 const checkAuthorized = () => {
   if (accessToken) return new Promise((res) => res(accessToken))
 
-  return fetch("http://hp.com/api/refresh_token", {
+  return fetch("/api/refresh_token", {
     method: "POST",
   })
     .then((res) => res.json())

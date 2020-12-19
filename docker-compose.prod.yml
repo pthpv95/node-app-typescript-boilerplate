@@ -1,15 +1,30 @@
 version: "3"
 
 services:
+  proxy:
+    depends_on:
+      - frontend
+      - backend
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    image: nginx
+    ports:
+      - 80:80
+    networks:
+      - my-network
+
   db:
     image: mongo
     ports:
-      - "27017"
+      - "27017:27017"
     volumes:
       - db_data:/data/db
     restart: always
+    networks:
+      - my-network
   
-  node-service:
+  backend:
     build:
       context: server
       dockerfile: Dockerfile.prod
@@ -21,18 +36,23 @@ services:
       PORT: 8080
     depends_on:
       - db
+    networks:
+      - my-network
 
-  web:
+  frontend:
     build:
       context: client
       dockerfile: Dockerfile.prod
     image: my-node-app-web
     ports:
-      - "3000:3000"
-    environment:
-      PORT: 3000
+      - 3000:3000
     depends_on:
-      - node-service
+      - backend
+    networks:
+      - my-network
 
 volumes:
   db_data:
+
+networks:
+   my-network:

@@ -24,8 +24,7 @@ app.use(cors()) //not need now
 app.use(json());
 app.use(
   cookieSession({
-    signed: false,
-    secure: false, //process.env.NODE_ENV !== "test",
+    signed: false
   })
 )
 app.use(compression());

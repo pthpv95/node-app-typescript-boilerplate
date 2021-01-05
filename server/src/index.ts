@@ -16,6 +16,7 @@ import { authorized } from "./services/authorized"
 import { errorHandler } from "./services/error-handler"
 import { verify } from "jsonwebtoken"
 import path from "path"
+import chalk from 'chalk'
 import { ResponseData } from "./common/response-data"
 
 const indexPath = path.join(__dirname, "./public")
@@ -160,16 +161,13 @@ app.use(errorHandler)
 
 const start = async () => {
   try {
-    // const hostname = process.env.MONGO_HOSTNAME || "127.0.0.1"
-    await mongoose.connect(
-      `mongodb://hp-my-cosmodb:LvmZjcC9kIeRdeWTlYFgZZo8gE9thbAZK65d9M6xLeFcIwYmWqBlgSOxpF2KciqZpowMC2aPQ1Yi2ow8Ew1bjQ==@hp-my-cosmodb.documents.azure.com:10255/?ssl=true&replicaSet=globaldb`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-      }
-    )
-    console.log("mongodb connected !!!")
+    const hostname = process.env.MONGO_HOSTNAME || "127.0.0.1"
+    await mongoose.connect(`mongodb://${hostname}:27017/my_app`, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+    })
+    console.log(chalk.green("mongodb connected !!!"))
   } catch (error) {
     console.log(error)
   }

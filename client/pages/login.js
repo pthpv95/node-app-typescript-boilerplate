@@ -1,21 +1,18 @@
 import { useState } from "react"
 import { useRouter } from "next/router"
 import { setAccessToken } from "../utils/access-token"
+import { httpClient } from "../utils/httpClient"
 
 const Login = (props) => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("abc@gmail.com")
+  const [password, setPassword] = useState("1749237uihjkfnsdklfklsdjfklsdnjk,zxncm,sx23")
   const router = useRouter()
 
   const onSubmit = (e) => {
-    e.preventDefault()
-    fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
+    e.preventDefault();
+    httpClient("api/login", "POST", null, {
+      email,
+      password,
     })
       .then((response) => response.json())
       .then((res) => {
@@ -56,6 +53,9 @@ const Login = (props) => {
         </div>
         <button type='submit' className='btn btn-primary'>
           Submit
+        </button>
+        <button type='button' className='btn btn-default' onClick={() => router.push('/register')}>
+          Register
         </button>
       </form>
     </div>

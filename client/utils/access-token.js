@@ -1,3 +1,5 @@
+import { authorizedRequest } from "./httpClient";
+
 let accessToken = ""
 
 const setAccessToken = (token) => {
@@ -7,11 +9,9 @@ const setAccessToken = (token) => {
 const getAccessToken = () => accessToken;
 
 const checkAuthorized = () => {
-  if (accessToken) return new Promise((res) => res(accessToken))
+  if (accessToken) return new Promise((res) => res(true))
 
-  return fetch("/api/refresh_token", {
-    method: "POST",
-  })
+  return authorizedRequest("api/refresh_token", "POST")
     .then((res) => res.json())
     .then((jsonResponse) => {
       if (jsonResponse.ok) {

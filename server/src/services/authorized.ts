@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-
 export interface AuthorizedUser {
   userId: string;
 }

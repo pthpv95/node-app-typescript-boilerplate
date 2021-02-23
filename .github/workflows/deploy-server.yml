@@ -21,6 +21,4 @@ jobs:
           key: ${{ secrets.DEV_SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            cd /srv/projects/360f-foresight-pro-backend/360f-foresight-pro-backend/foresightpro
-            sudo git pull
             sudo docker ps

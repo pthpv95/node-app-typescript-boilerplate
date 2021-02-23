@@ -16,7 +16,7 @@ jobs:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           username: ubuntu
-          key: ${{ secrets.DEV_SSH_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             cd /srv/projects/360f-foresight-pro-backend/360f-foresight-pro-backend/foresightpro

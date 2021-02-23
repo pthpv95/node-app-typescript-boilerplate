@@ -1,4 +1,4 @@
-name: fpro-backend manual deployment
+name: manual deployment
 
 on:
 #   push:
@@ -15,7 +15,7 @@ jobs:
       - name: Executing remote ssh commands and recreate docker container
         uses: appleboy/ssh-action@master
         with:
-          host: 18.136.189.229
+          host: ${{ secrets.HOST }}
           port: 22
           username: ubuntu
           key: ${{ secrets.DEV_SSH_KEY }}

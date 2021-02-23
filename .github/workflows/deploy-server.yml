@@ -1,22 +1,24 @@
-name: node-app
+name: fpro-backend manual deployment
 
 on:
-  push:
-    branches: 
-      - skipnow
+#   push:
+#     branches: 
+#       - development
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: Executing remote ssh commands and recreate docker container
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
-          username: ${{ secrets.USER_NAME }}
-          key: ${{ secrets.SSH_KEY }}
+          username: ubuntu
+          key: ${{ secrets.DEV_SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            cd projects/node-app-typescript-boilerplate
-            git checkout master && git pull origin master
-            docker-compose -f docker-compose.prod.yml build && docker-compose -f docker-compose.prod.yml up -d
+            cd /srv/projects/360f-foresight-pro-backend/360f-foresight-pro-backend/foresightpro
+            sudo git pull
+            sudo docker ps

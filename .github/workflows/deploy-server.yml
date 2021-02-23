@@ -9,12 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: DEV_SSH_KEY
     steps:
       - name: Executing remote ssh commands and recreate docker container
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
-          port: ${{ secrets.PORT }}
+          host: 18.136.189.229
+          port: 22
           username: ubuntu
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}

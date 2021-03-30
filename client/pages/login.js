@@ -4,8 +4,8 @@ import { setAccessToken } from "../utils/access-token"
 import { httpClient } from "../utils/httpClient"
 
 const Login = (props) => {
-  const [email, setEmail] = useState("abc@gmail.com")
-  const [password, setPassword] = useState("1749237uihjkfnsdklfklsdjfklsdnjk,zxncm,sx23")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const router = useRouter()
 
   const onSubmit = (e) => {

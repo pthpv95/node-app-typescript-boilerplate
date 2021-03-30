@@ -33,7 +33,15 @@ function AppComponent({ Component, pageProps }) {
 AppComponent.getInitialProps = async (appContext) => {
   let pageProps = {}
   if (isServer()) {
-    const cookies = parseCookie(appContext.ctx.req.headers.cookie)
+    let cookies
+    try {
+      cookies = parseCookie(appContext.ctx.req.headers.cookie)  
+    } catch (error) {
+      return {
+        pageProps,
+      }
+    }
+    
     const token = await httpClient("api/refresh_token", "POST", {
       cookie: "rftk=" + cookies.rftk,
     })

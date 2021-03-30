@@ -2,8 +2,8 @@ import { getAccessToken, setAccessToken } from "./access-token"
 import jwt_decode from "jwt-decode"
 
 const httpClient = (url, method, headers = {}, body = null) => {
-  const uri = process.env.NEXT_PUBLIC_BASE_API_URL + url
-  return fetch(uri, {
+  // const uri = process.env.NEXT_PUBLIC_BASE_API_URL + url
+  return fetch(url, {
     method,
     body: body
       ? JSON.stringify({
@@ -22,8 +22,8 @@ const authorizedRequest = async (url, method, body = null) => {
   if (checkTokenExpired()) {
     await refreshToken()
   }
-  const uri = process.env.NEXT_PUBLIC_BASE_API_URL + url
-  return fetch(uri, {
+  // const uri = process.env.NEXT_PUBLIC_BASE_API_URL + url
+  return fetch(url, {
     method,
     body: body
       ? JSON.stringify({

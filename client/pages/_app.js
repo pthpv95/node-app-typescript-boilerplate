@@ -42,7 +42,7 @@ AppComponent.getInitialProps = async (appContext) => {
       }
     }
     
-    const token = await httpClient("http://localhost:8080/api/refresh_token", "POST", {
+    const token = await httpClient("http://backend:8080/api/refresh_token", "POST", {
       cookie: "rftk=" + cookies.rftk,
     })
       .then((res) => res.json())
